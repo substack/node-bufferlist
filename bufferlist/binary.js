@@ -13,6 +13,12 @@ function Binary(buffer) {
             action : function () {
                 this.pushContext();
                 f.call(this, this.vars);
+                this.pushAction({
+                    ready : true,
+                    action : function () {
+                        this.popContext();
+                    }
+                });
             },
         });
         return this;
@@ -282,6 +288,7 @@ function Binary(buffer) {
     
     var offset = 0;
     var contexts = [[]]; // contexts full of actions to execute
+    this.c = function () { return contexts };
     
     this.stepAction = function () {
         var action = this.nextAction();
