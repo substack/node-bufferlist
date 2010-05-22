@@ -11,6 +11,7 @@ function Binary(buffer) {
         this.pushAction({
             ready : true,
             action : function () {
+                this.pushContext();
                 f.call(this, this.vars);
             },
         });
@@ -40,7 +41,7 @@ function Binary(buffer) {
         this.pushAction({
             ready : true,
             action : function () {
-                f.call(this, binary.vars);
+                f.call(this, this.vars);
                 this.forever(f);
             }
         });
@@ -95,18 +96,21 @@ function Binary(buffer) {
                         },
                         type : 'until',
                     });
-                    sys.log(sys.inspect(actions));
                 }
             }
         });
         return this;
     }
     
-    // Clear the action queue. This is useful for inner branches.
-    // Perhaps later there should also be a push and pop for entire action
-    // queues.
-    this.clear = function (value) {
-        actions = [];
+    // End a context and exit if there are no more contexts.
+    this.end = function () {
+        this.pushAction({
+            ready : true,
+            action : function () {
+                this.popContext();
+                if (contexts.length == 0) this.exit();
+            }
+        });
         return this;
     };
     
@@ -115,8 +119,8 @@ function Binary(buffer) {
         this.pushAction({
             ready : true,
             action : function () {
-                actions = [];
-                buffer.removeListener('push', process);
+                contexts = [];
+                buffer.removeListener('push', stepper);
             }
         });
         return this;
@@ -292,17 +296,45 @@ function Binary(buffer) {
     
     // Push an action onto the current action queue
     this.pushAction = function (opts) {
-        actions.push(opts);
-        process();
+        contexts[0].push(opts);
+        this.stepAction();
+        return this;
+    };
+    
+    this.popAction = function () {
+        var action = contexts[0].shift();
+        if (!action && contexts.length > 1) {
+            this.popContext();
+            return this.popAction();
+        }
+        else {
+            return action;
+        }
+    };
+    
+    this.nextAction = function (opts) {
+        if (contexts.length == 0) return;
+        var action = contexts[0][0];
+        if (!action && contexts.length > 1)
+            return contexts[1][0];
+        else return action;
+    };
+    
+    this.pushContext = function () {
+        contexts.unshift([]);
+        return this;
+    };
+    
+    this.popContext = function () {
+        contexts.shift();
         return this;
     };
     
     var offset = 0;
-    var actions = []; // actions to perform once the bytes are available
-    var binary = this;
+    var contexts = [[]]; // contexts full of actions to execute
     
-    function process () {
-        var action = actions[0];
+    this.stepAction = function () {
+        var action = this.nextAction();
         if (!action) return;
         
         var ready = {
@@ -312,11 +344,13 @@ function Binary(buffer) {
         if (!ready) throw "Unknown action.ready type";
         
         if (ready()) {
-            actions.shift();
-            action.action.call(binary, action.action);
-            process();
+            this.popAction();
+            action.action.call(this, this.vars);
+            this.stepAction();
         }
     }
-    buffer.addListener('push', process);
+    
+    var binary = this;
+    function stepper () { binary.stepAction() }
+    buffer.addListener('push', stepper);
 }
-

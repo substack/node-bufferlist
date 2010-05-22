@@ -15,7 +15,6 @@ function runTest(bufs, check) {
         .when('xLen', 0, function (vars) {
             assert.equal(vars.xLen, 0, 'when check for 0 failed');
             this
-                .clear()
                 .getWord32le('msgLen')
                 .getBuffer('msg', function (vars) {
                     return vars.msgLen
