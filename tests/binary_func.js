@@ -60,15 +60,28 @@ var untils = 0, untils2 = 0;
 var bList = new BufferList;
 
 Binary(bList)
+    .tap(function f (vars) {
+        untils ++;
+        sys.log('f');
+        if (vars['byte'] != 0) {
+            this.getWord8('byte').tap(f);
+        }
+        else {
+            this.end();
+        }
+    })
+    /*
     .until('byte', 0, function(vars) {
         this.getWord8('byte');
         untils++;
     })
+    */
     .tap(function (vars) {
         assert.equal(
             untils, 4,
             'untils != 4, untils == ' + untils + ' in until test'
         );
+        sys.log('moo');
     })
     .until('byte', 'f', function (vars) {
         this.getWord8('byte');
@@ -80,6 +93,7 @@ Binary(bList)
             'untils2 != 3, untils2 == ' + untils2 + ' in until test'
         );
     })
+    .end()
 ;
 
 var buf = new Buffer(7);

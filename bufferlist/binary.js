@@ -62,7 +62,13 @@ function Binary(buffer) {
         return this;
     }
     
-    // Repeat some action until v == value
+    // Repeat some action until the condition is true.
+    // Conditions can be specified in two ways:
+    // .until('someVar', 42, function () { ... })
+    // .until(
+    //    function (vars) { return vars.someVar == 42 },
+    //    function () {...})
+    // )
     this.until = function () {
         if (arguments.length == 3) {
             var v1 = arguments[0];
@@ -74,6 +80,7 @@ function Binary(buffer) {
                 if (typeof(v2) == 'string') {
                     v2 = vars[v2];
                 }
+                sys.log(v1 + ' == ' + v2);
                 return v1 == v2;
             };
             var f = arguments[2];
@@ -83,20 +90,25 @@ function Binary(buffer) {
             var f = arguments[1];
         }
         
+        var first = true;
         this.pushAction({
-            ready : true,
-            action : function () {
-                if (!checker(this.vars)) {
+            ready : function (vars) {
+                if (first) this.pushContext();
+                first = false;
+                
+                if (checker(this.vars) == false) {
+                    sys.log('false');
                     f.call(this, this.vars);
-                    this.pushAction({
-                        ready : true,
-                        action : function () {
-                            this.until(checker,f);
-                            sys.log('inner!');
-                        },
-                        type : 'until',
-                    });
+                    return false;
                 }
+                else {
+                    sys.log('true');
+                    this.popContext();
+                    return true;
+                }
+            },
+            action : function () {
+                sys.log('until');
             }
         });
         return this;
@@ -302,22 +314,12 @@ function Binary(buffer) {
     };
     
     this.popAction = function () {
-        var action = contexts[0].shift();
-        if (!action && contexts.length > 1) {
-            this.popContext();
-            return this.popAction();
-        }
-        else {
-            return action;
-        }
+        return contexts[0].shift();
     };
     
     this.nextAction = function (opts) {
         if (contexts.length == 0) return;
-        var action = contexts[0][0];
-        if (!action && contexts.length > 1)
-            return contexts[1][0];
-        else return action;
+        return contexts[0][0];
     };
     
     this.pushContext = function () {
@@ -343,7 +345,7 @@ function Binary(buffer) {
         }[typeof(action.ready)];
         if (!ready) throw "Unknown action.ready type";
         
-        if (ready()) {
+        if (ready.call(this,this.vars)) {
             this.popAction();
             action.action.call(this, this.vars);
             this.stepAction();
