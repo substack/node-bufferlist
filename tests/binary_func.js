@@ -62,12 +62,12 @@ var bList = new BufferList;
 Binary(bList)
     .tap(function f (vars) {
         untils ++;
-        sys.log('f');
         if (vars['byte'] != 0) {
+            sys.log('f');
             this.getWord8('byte').tap(f);
         }
         else {
-            this.end();
+            sys.log('end');
         }
     })
     /*
@@ -83,10 +83,12 @@ Binary(bList)
         );
         sys.log('moo');
     })
+    /*
     .until('byte', 'f', function (vars) {
         this.getWord8('byte');
         untils2++;
     })
+    */
     .tap(function (vars) {
         assert.equal(
             untils2, 3,

@@ -62,58 +62,6 @@ function Binary(buffer) {
         return this;
     }
     
-    // Repeat some action until the condition is true.
-    // Conditions can be specified in two ways:
-    // .until('someVar', 42, function () { ... })
-    // .until(
-    //    function (vars) { return vars.someVar == 42 },
-    //    function () {...})
-    // )
-    this.until = function () {
-        if (arguments.length == 3) {
-            var v1 = arguments[0];
-            var v2 = arguments[1];
-            var checker = function (vars) {
-                if (typeof(v1) == 'string') {
-                    v1 = vars[v1];
-                }
-                if (typeof(v2) == 'string') {
-                    v2 = vars[v2];
-                }
-                sys.log(v1 + ' == ' + v2);
-                return v1 == v2;
-            };
-            var f = arguments[2];
-        }
-        else if (arguments.length == 2) {
-            var checker = arguments[0];
-            var f = arguments[1];
-        }
-        
-        var first = true;
-        this.pushAction({
-            ready : function (vars) {
-                if (first) this.pushContext();
-                first = false;
-                
-                if (checker(this.vars) == false) {
-                    sys.log('false');
-                    f.call(this, this.vars);
-                    return false;
-                }
-                else {
-                    sys.log('true');
-                    this.popContext();
-                    return true;
-                }
-            },
-            action : function () {
-                sys.log('until');
-            }
-        });
-        return this;
-    }
-    
     // End a context and exit if there are no more contexts.
     this.end = function () {
         this.pushAction({
