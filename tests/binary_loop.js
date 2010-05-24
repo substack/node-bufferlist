@@ -29,9 +29,9 @@ Binary(new BufferList)
     })
     .tap(function (vars) {
         expectedTrickyList = [
-            [1,1],[1,2],[1,3],[1,4],
-            [2,1],[2,2],[2,3],[2,4],
-            [3,1],[3,2],[3,3],[3,4]
+            [0,0],[0,1],[0,2],[0,3],
+            [1,0],[1,1],[1,2],[1,3],
+            [2,0],[2,1],[2,2],[2,3]
         ];
         for (var i = 0; i < trickyList.length; i++) {
             assert.equal(
@@ -64,7 +64,7 @@ Binary(new BufferList)
 
 setTimeout(function () {
     assert.equal(
-        c, 10000, 'c != 100, c == ' + c + ' in terminated forever check'
+        c, 10000, 'c != 10000, c == ' + c + ' in terminated forever check'
     );
 }, 1000);
 

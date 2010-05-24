@@ -8,7 +8,7 @@ var scriptName = path.basename(__filename);
 
 fs.readdir(__dirname, function (err, files) {
     var tests = files.filter(function (file) {
-        return file.match(/\.js$/) && file != scriptName;
+        return file.match(/\.js$/) && file != scriptName && file != 'binary_rfb.js'
     });
     
     var failed = 0;

@@ -45,7 +45,8 @@ function Binary(buffer) {
             action : function () {
                 g.call(this, this.vars);
                 f.call(binary, g);
-            }
+            },
+            type : 'forever'
         };
         this.pushAction(action);
         setTimeout(function () {
@@ -56,23 +57,37 @@ function Binary(buffer) {
     }
 
     this.f = function (x) {
-        sys.log(x);
+        this.pushAction({
+            ready : true,
+            action : function () {
+                sys.log(x);
+            }
+        });
+        return this;
+    }
+
+    this.dc = function() {
+        this.pushAction({
+            ready : true,
+            action : function () {
+                sys.p(contexts);
+            }
+        });
         return this;
     }
     
     // Repeat some action n times
     this.repeat = function (n, f) {
         var n = typeof(n) == 'string' ? this.vars[n] : n;
-        for (var i = 0; i < n; i++) {
-            this.pushAction({
-                ready : true,
-                action : function () {
-                    // last arg is i so vars is in the usual place
-                    this.pushContext();
-                    f.call(this, this.vars, i);
-                    this.lazyPopContext();
-                }
-            });
+        for (var i=0; i<n; i++) {
+            (function (j) {
+                this.pushAction({
+                    ready : true,
+                    action : function () {
+                        f.call(this, this.vars, j);
+                    }
+                });
+            }).call(this, i);
         }
         return this;
     }
@@ -180,16 +195,10 @@ function Binary(buffer) {
     
     this.gets = function (opts) {
         if (typeof(opts.length) == 'string') {
-            var s = opts.length;
-            opts.length = function (vars) { return vars[s] };
+            var length = function (vars) { return vars[opts.length] };
         }
         else if (typeof(opts.length) == 'number') {
-            var s = opts.length;
-            opts.length = function (vars) { return s };
-        }
-        
-        function size () {
-            return opts.length.call(binary,binary.vars) * opts.bytes;
+            var length = function (vars) { return opts.length };
         }
         
         var into_t = typeof(opts.into);
@@ -200,11 +209,11 @@ function Binary(buffer) {
         
         this.pushAction({
             ready : function () {
-                var s = size();
-                return s && buffer.length - offset >= s;
+                var s = length.call(binary,binary.vars) * opts.bytes;
+                return buffer.length - offset >= s;
             },
             action : function () {
-                var s = size();
+                var s = length.call(binary,binary.vars) * opts.bytes;
                 var data = buffer.join(offset, offset + s);
                 offset += s;
                 
@@ -306,6 +315,7 @@ function Binary(buffer) {
     var binary = this;
     
     function process () {
+        sys.log(buffer.length);
         var action = binary.nextAction()
         if (!action) return;
         
