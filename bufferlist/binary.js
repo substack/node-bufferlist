@@ -12,10 +12,13 @@ function Binary(buffer) {
     this.vars = {};
     this.offset = 0;
     this.actions = [];
+    this.parent = null;
     
     // an explicit end loads all the actions before any evaluation happens
     this.end = function () {
-        buffer.addListener('push', update);
+        if (buffer.listeners('push').indexOf(update) < 0) {
+            buffer.addListener('push', update);
+        }
         update();
         return this;
     };
@@ -25,31 +28,29 @@ function Binary(buffer) {
         this.pushAction({
             ready : true,
             action : function () {
-                buffer.listeners('push').splice(0);
                 this.actions = [];
-                this.parent
-                    ? this.parent.emit('exit')
-                    : this.emit('exit')
-                ;
+                if (this.parent) this.parent.actions = [];
             },
         });
-        return this.end();
+        return this;
     };
     
     function update () {
         var action = binary.actions[0];
         if (!action) {
             buffer.removeListener('push', update);
-            binary.emit('end');
+            binary.emit('end', binary.vars);
         }
         else if (action.ready.call(binary, binary.vars)) {
             binary.actions.shift();
             
             if (action.context == false) {
                 action.action.call(binary, binary.vars);
-                update();
+                binary.end();
             }
             else {
+                buffer.removeListener('push', update);
+                
                 var child = new Binary(buffer);
                 child.vars = binary.vars;
                 child.parent = binary;
@@ -58,9 +59,8 @@ function Binary(buffer) {
                 child.addListener('end', function () {
                     binary.offset = child.offset;
                     buffer.addListener('push', update);
-                    update();
+                    binary.end();
                 });
-                buffer.removeListener('push', update);
                 
                 action.action.call(child, child.vars);
                 child.end();
