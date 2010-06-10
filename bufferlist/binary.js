@@ -258,12 +258,14 @@ function Binary(buffer) {
             action : function () {
                 var data = buffer.join(this.offset, this.offset + opts.bytes);
                 this.offset += opts.bytes;
+                var decodeLittleEndian = opts.signed ? decodeLEs : decodeLE;
+                var decodeBigEndian = opts.signed ? decodeBEs : decodeBE;
                 assign.call(
                     this,
                     into,
                     opts.endian && opts.endian == 'little'
-                    ? decodeLE(data)
-                    : decodeBE(data)
+                    ? decodeLittleEndian(data)
+                    : decodeBigEndian(data)
                 );
                 
             },
@@ -282,16 +284,36 @@ function Binary(buffer) {
             this, { into : arguments, bytes : 2, endian : 'big' }
         );
     };
+
+    this.getWord16bes = function () {
+        return get.call(
+            this, { into : arguments, bytes : 2, endian : 'big', signed : true }
+        );
+    }
     
     this.getWord16le = function () {
         return get.call(
             this, { into : arguments, bytes : 2, endian : 'little' }
         );
     };
+
+    this.getWord16les = function () {
+        return get.call(
+            this, { into : arguments, bytes : 2, endian : 'little',
+                signed : true }
+        );
+    }
     
     this.getWord32be = function () {
         return get.call(
             this, { into : arguments, bytes : 4, endian : 'big' }
+        );
+    };
+
+    this.getWord32bes = function () {
+        return get.call(
+            this, { into : arguments, bytes : 4, endian : 'big',
+                signed : true }
         );
     };
     
@@ -300,15 +322,38 @@ function Binary(buffer) {
             this, { into : arguments, bytes : 4, endian : 'little' }
         );
     };
-    
-    this.getWord64be = function (arguments) {
+
+    this.getWord32les = function () {
         return get.call(
-            this, { into : arguments, bytes : 8, endian : 'big'}
+            this, { into : arguments, bytes : 4, endian : 'little',
+                signed: true }
+        );
+    };
+    
+    this.getWord64be = function () {
+        return get.call(
+            this, { into : arguments, bytes : 8, endian : 'big' }
+        );
+    };
+
+    this.getWord64bes = function () {
+        return get.call(
+            this, { into : arguments, bytes : 8, endian : 'big',
+                signed : true }
         );
     };
     
     this.getWord64le = function () {
-        return get({ into : arguments, bytes : 8, endian : 'little' });
+        return get.call(
+            this, { into : arguments, bytes : 8, endian : 'little' }
+        );
+    };
+
+    this.getWord64les = function () {
+        return get.call(
+            this, { into : arguments, bytes : 8, endian : 'little',
+                signed : true }
+        );
     };
     
     this.getBuffer = function () {
@@ -374,5 +419,23 @@ function decodeBE (bytes) {
         acc += Math.pow(256, bytes.length - i - 1) * bytes[i];
     }
     return acc;
+}
+
+// convert byte strings to signed big endian numbers
+function decodeBEs (bytes) {
+    var val = decodeBE(bytes);
+    if ((bytes[0]&0x80) == 0x80) {
+        val -= Math.pow(256, bytes.length);
+    }
+    return val;
+}
+
+// convert byte strings to signed little endian numbers
+function decodeLEs (bytes) {
+    var val = decodeLE(bytes);
+    if ((bytes[bytes.length-1]&0x80) == 0x80) {
+        val -= Math.pow(256, bytes.length);
+    }
+    return val;
 }
 
