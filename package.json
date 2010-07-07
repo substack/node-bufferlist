@@ -1,0 +1,16 @@
+{
+    "name": "bufferlist",
+    "version": "0.0.1",
+    "description": "Create linked lists of Buffer objects",
+    "author": "James Halliday (substack)",
+
+    "directories": { "lib": "./lib" },
+    "main": "bufferlist",
+
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/substack/node-bufferlist.git"
+    },
+
+    "engine": ["node >=0.1.97"]
+}
