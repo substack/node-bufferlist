@@ -2,7 +2,7 @@
     "name": "bufferlist",
     "version": "0.0.1",
     "description": "Create linked lists of Buffer objects",
-    "author": "James Halliday (substack)",
+    "author": "James Halliday (mail@substack.net)",
 
     "directories": { "lib": "./lib" },
     "main": "bufferlist",
