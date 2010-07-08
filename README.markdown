@@ -4,6 +4,18 @@ BufferList provides an interface to treat a linked list of buffers as a single
 stream. This is useful for events that produce a many small Buffers, such as
 network streams.
 
+Installation
+============
+Install using npm:
+    npm install bufferlist
+
+Or, check out the repository and have npm link to your development copy. This
+is useful for developing the library, and is necessary when running the tests,
+since they refer to the installed names of the library files.
+    git clone http://github.com/substack/node-bufferlist.git 
+    cd node-bufferlist
+    npm link .
+
 Simple Bufferlist Example
 =========================
     
