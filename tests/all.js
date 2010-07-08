@@ -4,6 +4,7 @@ var sys = require('sys');
 var path = require('path');
 var proc = require('child_process');
 
+process.chdir(__dirname + '/../lib');
 var scriptName = path.basename(__filename);
 
 fs.readdir(__dirname, function (err, files) {
