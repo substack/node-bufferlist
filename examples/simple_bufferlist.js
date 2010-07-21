@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var sys = require('sys');
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist').BufferList;
+var BufferList = require('bufferlist');
 
 var b = new BufferList;
 ['abcde','xyz','11358'].forEach(function (s) {

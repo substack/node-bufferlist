@@ -3,8 +3,8 @@
 var assert = require('assert');
 
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist').BufferList;
-var Binary = require('bufferlist/binary').Binary;
+var BufferList = require('bufferlist').BufferList; // old style
+var Binary = require('bufferlist/binary').Binary; // old style
 var sys = require('sys');
 
 function runTest(bufs, check) {

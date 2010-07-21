@@ -3,8 +3,10 @@
 var Buffer = require('buffer').Buffer;
 var EventEmitter = require('events').EventEmitter;
 
+module.exports = BufferList;
+module.exports.BufferList = BufferList; // backwards compatibility
+
 BufferList.prototype = new EventEmitter;
-exports.BufferList = BufferList;
 function BufferList(opts) {
     if (!(this instanceof BufferList)) return new BufferList(opts);
     

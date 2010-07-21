@@ -3,8 +3,8 @@
 var assert = require('assert');
 
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist').BufferList;
-var Binary = require('bufferlist/binary').Binary;
+var BufferList = require('bufferlist');
+var Binary = require('bufferlist/binary');
 
 Number.prototype.upTo = function (n) {
     var acc = [];

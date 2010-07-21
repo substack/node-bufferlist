@@ -2,8 +2,8 @@
 
 var sys = require('sys');
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist').BufferList;
-var Binary = require('bufferlist/binary').Binary;
+var BufferList = require('bufferlist');
+var Binary = require('bufferlist/binary');
 
 var bufferList = new BufferList;
 var binary = Binary(bufferList)

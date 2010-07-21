@@ -3,7 +3,7 @@
 var assert = require('assert');
 
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist').BufferList;
+var BufferList = require('bufferlist');
 
 var buf1 = new Buffer(5); buf1.write('abcde');
 var buf2 = new Buffer(3); buf2.write('xyz');

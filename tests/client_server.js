@@ -8,7 +8,7 @@ var assert = require('assert');
 var net = require('net');
 var client = new net.Stream;
 
-var BufferList = require('bufferlist').BufferList;
+var BufferList = require('bufferlist');
 var bufs = new BufferList;
 var elems = [];
 

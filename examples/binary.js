@@ -3,8 +3,8 @@
 var sys = require('sys');
 var net = require('net');
 
-var BufferList = require('bufferlist').BufferList;
-var Binary = require('bufferlist/binary').Binary;
+var BufferList = require('bufferlist');
+var Binary = require('bufferlist/binary');
 
 function parser (sock) {
     var bufferList = new BufferList;
