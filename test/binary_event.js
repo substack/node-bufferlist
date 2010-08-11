@@ -5,7 +5,7 @@ var Binary = require('bufferlist/binary');
 
 function parser (sock) {
     var bufferList = new BufferList;
-    sock.addListener('data', function (data) {
+    sock.on('data', function (data) {
         bufferList.push(data);
     });
     
@@ -43,29 +43,24 @@ exports['binary event'] = function (assert) {
         
         // connect to the server and parse its output
         var client = new net.Stream;
-        parser(client).addListener('end', function (vars) {
+        parser(client).on('end', function (vars) {
             assert.equal(
                 moo, vars.moo,
                 'moo != ' + sys.inspect(moo) + ', moo == ' + sys.inspect(vars.moo)
             );
-            parsed ++;
             client.end();
         });
         client.connect(port);
     }
-
-    var parsed = 0;
-
+    
     serverSession(20801,
         ['\x00','\x04m','eow'],
         'xs:4:meow'
     );
+    
     serverSession(20802,
         ['\x00\x00','\x12\x00\x00\x00happy pur','ring c','ats'],
         'msg:18:happy purring cats'
     );
-    setTimeout(function () {
-        assert.equal(parsed, 2, 'parsed != 2, parsed == ' + parsed);
-    }, 500);
 };
 
