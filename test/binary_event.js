@@ -5,8 +5,7 @@ var Binary = require('bufferlist/binary');
 
 function parser (sock) {
     var bufferList = new BufferList;
-    //sys.pump(sock, bufferList);
-    sock.on('data', function (buf) { bufferList.write(buf) });
+    sys.pump(sock, bufferList);
     
     return Binary(bufferList)
         .getWord16be('xLen')

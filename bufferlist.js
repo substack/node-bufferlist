@@ -48,17 +48,15 @@ function BufferList(opts) {
         return true;
     };
     
-    this.end = function (buf) {
+    self.end = function (buf) {
         if (buf instanceof Buffer) self.write(buf);
     };
     
     // Push buffers to the end of the linked list. (deprecated)
     // Return this (self).
-    this.push = function () {
+    self.push = function () {
         var args = [].concat.apply([], arguments);
-        args.forEach(function (buf) {
-            self.write(buf);
-        });
+        args.forEach(self.write);
         return self;
     };
     
