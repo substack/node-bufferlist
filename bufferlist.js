@@ -9,6 +9,7 @@ module.exports.BufferList = BufferList; // backwards compatibility
 BufferList.prototype = new EventEmitter;
 function BufferList(opts) {
     if (!(this instanceof BufferList)) return new BufferList(opts);
+    var self = this;
     
     if (typeof(opts) == 'undefined') opts = {}
     
@@ -32,24 +33,33 @@ function BufferList(opts) {
     // keep an offset of the head to decide when to head = head.next
     var offset = 0;
     
-    // Push buffers to the end of the linked list.
+    // Write to the bufferlist. Emits 'write'. Always returns true.
+    self.write = function (buf) {
+        if (!head.buffer) {
+            head.buffer = buf;
+            last = head;
+        }
+        else {
+            last.next = { next : null, buffer : buf };
+            last = last.next;
+        }
+        length += buf.length;
+        self.emit('write', buf);
+        return true;
+    };
+    
+    this.end = function (buf) {
+        if (buf instanceof Buffer) self.write(buf);
+    };
+    
+    // Push buffers to the end of the linked list. (deprecated)
     // Return this (self).
     this.push = function () {
         var args = [].concat.apply([], arguments);
         args.forEach(function (buf) {
-            if (!head.buffer) {
-                head.buffer = buf;
-                last = head;
-            }
-            else {
-                last.next = { next : null, buffer : buf };
-                last = last.next;
-            }
-            length += buf.length;
+            self.write(buf);
         });
-        
-        this.emit('push', args);
-        return this;
+        return self;
     };
     
     // For each buffer, perform some action.

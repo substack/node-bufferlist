@@ -7,12 +7,13 @@ var BufferList = require('bufferlist');
 exports.events = function (assert) {
     var b = new BufferList;
     var times = 0;
-
-    b.addListener('push', function (args) {
+    
+    var wrote = null;
+    b.addListener('write', function (buf) {
         assert.equal(
-            pushed.toString(),
-            args.toString(),
-            'pushed callback gives its arguments'
+            wrote.toString(),
+            buf.toString(),
+            'write callback gives its arguments'
         );
         times ++;
     });
@@ -20,21 +21,20 @@ exports.events = function (assert) {
     var buf1 = new Buffer(5); buf1.write('abcde');
     var buf2 = new Buffer(3); buf2.write('xyz');
     var buf3 = new Buffer(5); buf3.write('11358');
-
-    var pushed = [buf1,buf2];
-    b.push(buf1,buf2);
-
-    assert.equal(times, 1, 'pushed once');
-
-    var pushed = [buf3];
-    b.push(buf3);
-
-    assert.equal(times, 2, 'pushed two times');
-
+    
+    var wrote = buf1; b.write(buf1);
+    var wrote = buf2; b.write(buf2);
+    
+    assert.equal(times, 2, 'wrote twice');
+    
+    var wrote = buf3; b.write(buf3);
+    
+    assert.equal(times, 3, 'wrote thrice');
+    
     assert.equal(b.take(), 'abcdexyz11358', 'entire buffer check');
-
+    
     var advanced = 0;
-    b.addListener('advance', function (n) {
+    b.on('advance', function (n) {
         assert.equal(n, 3, 'n = 3 in advance callback')
         advanced ++;
     });
