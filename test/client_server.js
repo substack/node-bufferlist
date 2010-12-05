@@ -6,7 +6,7 @@ var net = require('net');
 var client = new net.Stream;
 
 exports['client/server'] = function (assert) {
-    var BufferList = require('bufferlist');
+    var BufferList = require('../bufferlist');
     var bufs = new BufferList;
     var elems = [];
 

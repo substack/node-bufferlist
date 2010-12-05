@@ -1,6 +1,7 @@
 // Test advancing the buffer
+
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist');
+var BufferList = require('../bufferlist');
 
 exports.advance = function (assert) {
     var b = new BufferList;

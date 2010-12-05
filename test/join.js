@@ -1,6 +1,6 @@
 // Test joining lots of chunks into one buffer
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist');
+var BufferList = require('../bufferlist');
 
 exports.join = function (assert) {
     var buf1 = new Buffer(5); buf1.write('abcde');

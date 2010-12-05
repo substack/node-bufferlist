@@ -1,8 +1,8 @@
 // Check .into(), especially for object pollution
 var sys = require('sys');
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist');
-var Binary = require('bufferlist/binary');
+var BufferList = require('../bufferlist');
+var Binary = require('../lib/binary');
 
 exports.into = function (assert) {
     var bList = new BufferList;

@@ -2,8 +2,8 @@
 // Test binary byte and endianness functions
 var sys = require('sys');
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist');
-var Binary = require('bufferlist/binary');
+var BufferList = require('../bufferlist');
+var Binary = require('../lib/binary');
 
 exports.endianness = function (assert) {
     var bList = new BufferList;

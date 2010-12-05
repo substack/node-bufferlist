@@ -1,7 +1,7 @@
 // Jumping around in a binary parser
 var Buffer = require('buffer').Buffer;
-var BufferList = require('bufferlist');
-var Binary = require('bufferlist/binary');
+var BufferList = require('../bufferlist');
+var Binary = require('../lib/binary');
 
 Number.prototype.upTo = function (n) {
     var acc = [];
