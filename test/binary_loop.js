@@ -4,8 +4,9 @@ var sys = require('sys');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('../bufferlist');
 var Binary = require('../lib/binary');
+var assert = require('assert');
 
-exports['binary loop'] = function (assert) {
+exports['binary loop'] = function () {
     // test repeat
     var reps = 0;
     var trickyList = [];
@@ -15,7 +16,7 @@ exports['binary loop'] = function (assert) {
             reps++;
         })
         .tap(function (vars) {
-            assert.equal(
+            assert.eql(
                 reps, 5000, 'reps != 5000, reps == ' + reps + ' in repeat test'
             );
         })
@@ -33,14 +34,14 @@ exports['binary loop'] = function (assert) {
                 [3,1],[3,2],[3,3],[3,4]
             ];
             for (var i = 0; i < trickyList.length; i++) {
-                assert.equal(
+                assert.eql(
                     trickyList[i][0],
                     expectedTrickyList[i][0],
                     'trickly list is not what it should be. it should be: ' +
                         sys.inspect(expectedTrickyList) + '. it is: ' +
                         sys.inspect(trickyList)
                 );
-                assert.equal(
+                assert.eql(
                     trickyList[i][1],
                     expectedTrickyList[i][1],
                     'trickly list is not what it should be. it should be: ' +
@@ -52,7 +53,7 @@ exports['binary loop'] = function (assert) {
         .end()
     ;
 
-    assert.equal(reps, 5000, 'reps != 5000, reps == ' + reps + ' in outer repeat check');
+    assert.eql(reps, 5000, 'reps != 5000, reps == ' + reps + ' in outer repeat check');
 
     var bufferList = new BufferList;
     var loops = 0;
@@ -61,7 +62,7 @@ exports['binary loop'] = function (assert) {
             this
                 .getWord16be('moo','count')
                 .tap(function (vars) {
-                    assert.equal(
+                    assert.eql(
                         vars.moo.count, 100,
                         'count != 100, count == ' + vars.moo.count
                     );
@@ -71,7 +72,7 @@ exports['binary loop'] = function (assert) {
                     this
                         .getWord16be('size')
                         .tap(function (vars) {
-                            assert.equal(
+                            assert.eql(
                                 vars.size, 1000,
                                 'size != 1000, size == ' + vars.size
                             );
@@ -81,7 +82,7 @@ exports['binary loop'] = function (assert) {
                     vars.reps ++;
                 })
                 .tap(function (vars) {
-                    assert.equal(
+                    assert.eql(
                         vars.reps, 100, 'reps != 100, reps == ' + vars.reps
                     );
                 })
@@ -109,6 +110,6 @@ exports['binary loop'] = function (assert) {
         }
     }
     
-    assert.equal(loops, 20, 'loops != 20, loops == ' + loops);
+    assert.eql(loops, 20, 'loops != 20, loops == ' + loops);
 };
 

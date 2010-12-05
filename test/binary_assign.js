@@ -3,15 +3,16 @@ var sys = require('sys');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('../bufferlist');
 var Binary = require('../lib/binary');
+var assert = require('assert');
 
-exports['binary assign'] = function (assert) {
+exports['binary assign'] = function () {
     var tapped = 0;
     var bList = new BufferList;
 
     Binary(bList)
         .getWord16be('foo','bar','baz')
         .tap(function (vars) {
-            assert.equal(
+            assert.eql(
                 vars.foo.bar.baz, 24930,
                 'vars.foo.bar.baz != 24930, '
                 + 'vars.foo.bar.baz == ' + sys.inspect(vars.foo.bar.baz)
@@ -20,7 +21,7 @@ exports['binary assign'] = function (assert) {
         })
         .getWord32le(['one','two','three'])
         .tap(function (vars) {
-            assert.equal(
+            assert.eql(
                 vars.one.two.three, 1717920867,
                 'vars.one.two.three != 1717920867, '
                 + 'vars.one.two.three == ' + sys.inspect(vars.one.two.three)
@@ -39,23 +40,23 @@ exports['binary assign'] = function (assert) {
             ;
         })
         .tap(function (vars) {
-            assert.equal(
+            assert.eql(
                 vars.what.the.fuck.w, 119,
                 '.w != 119, .w == ' + vars.what.the.fuck.w
             );
-            assert.equal(
+            assert.eql(
                 vars.what.the.fuck.t, 116,
                 '.t != 119, .t == ' + vars.what.the.fuck.t
             );
-            assert.equal(
+            assert.eql(
                 vars.what.the.fuck.f, 102,
                 '.f != 119, .f == ' + vars.what.the.fuck.f
             );
-            assert.equal(
+            assert.eql(
                 vars.what.the.fuck['?!'], 825303359,
                 '.?! != 825303359, .?! == ' + vars.what.the.fuck['?!']
             );
-            assert.equal(
+            assert.eql(
                 vars.what.the.fuck['meow'], 9000,
                 '.meow != 9000, .meow == ' + vars.what.the.fuck.meow
             );
@@ -67,6 +68,6 @@ exports['binary assign'] = function (assert) {
     var buf = new Buffer(13);
     buf.write('abcdefwtf?!11');
     bList.push(buf);
-    assert.equal(tapped, 3, 'tapped != 3, tapped == ' + tapped);
+    assert.eql(tapped, 3, 'tapped != 3, tapped == ' + tapped);
 };
 

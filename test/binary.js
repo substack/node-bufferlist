@@ -3,15 +3,16 @@ var Buffer = require('buffer').Buffer;
 var BufferList = require('../bufferlist').BufferList; // old style
 var Binary = require('../lib/binary').Binary; // old style
 var sys = require('sys');
+var assert = require('assert');
 
-exports.binary = function (assert) {
+exports.binary = function () {
     function runTest(bufs, check) {
         var bList = new BufferList;
         
         var binary = Binary(bList)
             .getWord16be('xLen')
             .when('xLen', 0, function (vars) {
-                assert.equal(vars.xLen, 0, 'when check for 0 failed');
+                assert.eql(vars.xLen, 0, 'when check for 0 failed');
                 this
                     .getWord32le('msgLen')
                     .getBuffer('msg', function (vars) {
@@ -49,17 +50,17 @@ exports.binary = function (assert) {
             return b;
         }),
         function (vars) {
-            assert.equal(
+            assert.eql(
                 vars.xLen,
                 4,
                 'xLen == 4 failed (xLen == ' + sys.inspect(vars.xLen) + ')'
             );
             
             var xs = vars.xs.toString();
-            assert.equal(
+            assert.eql(
                 xs, 'meow', 'xs != "meow", xs = ' + sys.inspect(xs)
             );
-            assert.equal(
+            assert.eql(
                 vars.moo, 100, 'moo != 100, moo == ' + sys.inspect(vars.moo)
             );
         }
@@ -73,16 +74,12 @@ exports.binary = function (assert) {
             return b;
         }),
         function (vars) {
-            assert.equal(vars.xLen, 0, 'xLen == 0 in "\\x00\\x12happy purring cats"');
-            assert.equal(
+            assert.eql(vars.xLen, 0, 'xLen == 0 in "\\x00\\x12happy purring cats"');
+            assert.eql(
                 vars.msgLen, 18,
                 'msgLen != 18, msgLen = ' + sys.inspect(vars.msgLen)
             );
-            assert.equal(
-                vars.msg, 'happy purring cats',
-                'msg != "happy purring cats", msg == ' + sys.inspect(vars.msg)
-            );
-            assert.equal(vars.moo, 42, 'moo != 42');
+            assert.eql(vars.moo, 42, 'moo != 42');
         }
     );
 };

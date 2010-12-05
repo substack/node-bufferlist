@@ -2,6 +2,7 @@
 var Buffer = require('buffer').Buffer;
 var BufferList = require('../bufferlist');
 var Binary = require('../lib/binary');
+var assert = require('assert');
 
 Number.prototype.upTo = function (n) {
     var acc = [];
@@ -26,7 +27,7 @@ Array.prototype.zip = function (xs) {
     });
 };
 
-exports.jump = function (assert) {
+exports.jump = function () {
     var tapped = 0;
 
     var bList = new BufferList;
@@ -36,7 +37,7 @@ exports.jump = function (assert) {
         .getWord16be('de')
         .tap(function (vars) {
             var de = 256 * 'd'.charCodeAt(0) + 'e'.charCodeAt(0);
-            assert.equal(
+            assert.eql(
                 vars.de, de,
                 'getWord16be at 3 should be ' + de + ', not ' + vars.de
             );
@@ -49,6 +50,6 @@ exports.jump = function (assert) {
     var buf2 = new Buffer(3); buf2.write('xyz');
     var buf3 = new Buffer(5); buf3.write('11358');
     bList.push(buf1,buf2,buf3);
-    assert.equal(tapped, 1, 'not tapped');
+    assert.eql(tapped, 1, 'not tapped');
 };
 

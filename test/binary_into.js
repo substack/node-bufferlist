@@ -3,8 +3,9 @@ var sys = require('sys');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('../bufferlist');
 var Binary = require('../lib/binary');
+var assert = require('assert');
 
-exports.into = function (assert) {
+exports.into = function () {
     var bList = new BufferList;
     var tapped = false;
     
@@ -20,13 +21,13 @@ exports.into = function (assert) {
         .tap(function (vars) {
             tapped = true;
             
-            assert.equal(vars.ones, 3);
-            assert.equal(vars.frac['64'], 73184615082362370);
-            assert.equal(vars.frac['32'], 50661385);
-            assert.equal(vars.frac['16'], 1801);
-            assert.equal(vars.frac['8'], 3);
+            assert.eql(vars.ones, 3);
+            assert.eql(vars.frac['64'], 73184615082362370);
+            assert.eql(vars.frac['32'], 50661385);
+            assert.eql(vars.frac['16'], 1801);
+            assert.eql(vars.frac['8'], 3);
             
-            assert.equal(
+            assert.eql(
                 Object.keys(vars).sort().join(' '), 'frac ones',
                 'object pollution with .into()'
             )

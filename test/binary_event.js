@@ -2,6 +2,7 @@ var sys = require('sys');
 var net = require('net');
 var BufferList = require('../bufferlist');
 var Binary = require('../lib/binary');
+var assert = require('assert');
 
 function parser (sock) {
     var bufferList = new BufferList;
@@ -27,7 +28,7 @@ function parser (sock) {
     ;
 }
 
-exports['binary event'] = function (assert) {
+exports['binary event'] = function () {
     function serverSession (port, strings, moo) {
         // fire up a server to write the strings when a client connects
         var server = net.createServer(function (stream) {
@@ -42,7 +43,7 @@ exports['binary event'] = function (assert) {
         // connect to the server and parse its output
         var client = new net.Stream;
         parser(client).on('end', function (vars) {
-            assert.equal(
+            assert.eql(
                 moo, vars.moo,
                 'moo != ' + sys.inspect(moo) + ', moo == ' + sys.inspect(vars.moo)
             );

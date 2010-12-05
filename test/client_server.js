@@ -4,8 +4,9 @@
 var sys = require('sys');
 var net = require('net');
 var client = new net.Stream;
+var assert = require('assert');
 
-exports['client/server'] = function (assert) {
+exports['client/server'] = function () {
     var BufferList = require('../bufferlist');
     var bufs = new BufferList;
     var elems = [];
@@ -14,13 +15,13 @@ exports['client/server'] = function (assert) {
         bufs.push(data);
         elems.push(data);
         
-        assert.equal(bufs.take(3), elems[0], 'take first 3 bytes');
-        assert.equal(bufs.take(100), elems.join(''), 'take past length of buffer');
+        assert.eql(bufs.take(3).toString(), elems[0].toString(), 'take first 3 bytes ('+sys.inspect(elems[0])+') vs ('+sys.inspect(bufs.take(3).toString())+')');
+        assert.eql(bufs.take(100), elems.join(''), 'take past length of buffer');
     });
 
     client.addListener('end', function (data) {
-        assert.equal(bufs.length, elems.join('').length, 'verify length');
-        assert.equal(bufs.take(bufs.length), elems.join(''), 'take to the end');
+        assert.eql(bufs.length, elems.join('').length, 'verify length');
+        assert.eql(bufs.take(bufs.length), elems.join(''), 'take to the end');
         client.end();
     });
 

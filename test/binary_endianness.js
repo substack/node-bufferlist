@@ -4,89 +4,90 @@ var sys = require('sys');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('../bufferlist');
 var Binary = require('../lib/binary');
+var assert = require('assert');
 
-exports.endianness = function (assert) {
+exports.endianness = function () {
     var bList = new BufferList;
 
     Binary(bList)
         .getWord8('w8')
         .tap(function (vars) {
-            assert.equal(vars.w8, 239, 'w8 is not 239')
+            assert.eql(vars.w8, 239, 'w8 is not 239')
         })
         // 16 bit functions
         .getWord16le('w16le')
         .tap(function (vars) {
-            assert.equal(vars.w16le, 23569, 'w16le is not 23569');
+            assert.eql(vars.w16le, 23569, 'w16le is not 23569');
         })
         .getWord16be('w16be')
         .tap(function (vars) {
-            assert.equal(vars.w16be, 23569, 'w16be is not 23569');
+            assert.eql(vars.w16be, 23569, 'w16be is not 23569');
         })
         .getWord16les('w16les')
         .tap(function (vars) {
-            assert.equal(vars.w16les, -239, 'w16les is not -239');
+            assert.eql(vars.w16les, -239, 'w16les is not -239');
         })
         .getWord16bes('w16bes')
         .tap(function (vars) {
-            assert.equal(vars.w16bes, -239, 'w16bes is not -239');
+            assert.eql(vars.w16bes, -239, 'w16bes is not -239');
         })
         .getWord16les('w16lesu')
         .tap(function (vars) {
-            assert.equal(vars.w16lesu, 23569, 'w16lesu is not -239');
+            assert.eql(vars.w16lesu, 23569, 'w16lesu is not -239');
         })
         .getWord16bes('w16besu')
         .tap(function (vars) {
-            assert.equal(vars.w16besu, 23569, 'w16besu is not -239');
+            assert.eql(vars.w16besu, 23569, 'w16besu is not -239');
         })
         // 32 bit functions
         .getWord32le('w32le')
         .tap(function (vars) {
-            assert.equal(vars.w32le, 287454020, 'w32le is not 287454020');
+            assert.eql(vars.w32le, 287454020, 'w32le is not 287454020');
         })
         .getWord32be('w32be')
         .tap(function (vars) {
-            assert.equal(vars.w32be, 287454020, 'w32be is not 287454020');
+            assert.eql(vars.w32be, 287454020, 'w32be is not 287454020');
         })
         .getWord32les('w32les')
         .tap(function (vars) {
-            assert.equal(vars.w32les, -16742383, 'w32les is not -16742383');
+            assert.eql(vars.w32les, -16742383, 'w32les is not -16742383');
         })
         .getWord32bes('w32bes')
         .tap(function (vars) {
-            assert.equal(vars.w32bes, -16742383, 'w32bes is not -16742383');
+            assert.eql(vars.w32bes, -16742383, 'w32bes is not -16742383');
         })
         .getWord32les('w32lesu')
         .tap(function (vars) {
-            assert.equal(vars.w32lesu, 2076074948, 'w32lesu is not 2076074948');
+            assert.eql(vars.w32lesu, 2076074948, 'w32lesu is not 2076074948');
         })
         .getWord32bes('w32besu')
         .tap(function (vars) {
-            assert.equal(vars.w32besu, 2076074948, 'w32besu is not 2076074948');
+            assert.eql(vars.w32besu, 2076074948, 'w32besu is not 2076074948');
         })
         // 64 bit functions
         .getWord64le('w64le')
         .tap(function (vars) {
-            assert.equal(vars.w64le, 9833440827789222417, 'w64le is not 9833440826932474692');
+            assert.eql(vars.w64le, 9833440827789222417, 'w64le is not 9833440826932474692');
         })
         .getWord64be('w64be')
         .tap(function (vars) {
-            assert.equal(vars.w64be, 9833440827789222417, 'w64be is not 9833440826932474692');
+            assert.eql(vars.w64be, 9833440827789222417, 'w64be is not 9833440826932474692');
         })
         .getWord64les('w64les')
         .tap(function (vars) {
-            assert.equal(vars.w64les, -8613303245920330000, 'w64les is not -8613303245920330000');
+            assert.eql(vars.w64les, -8613303245920330000, 'w64les is not -8613303245920330000');
         })
         .getWord64bes('w64bes')
         .tap(function (vars) {
-            assert.equal(vars.w64bes, -8613303245920330000, 'w64bes is not -8613303245920330000');
+            assert.eql(vars.w64bes, -8613303245920330000, 'w64bes is not -8613303245920330000');
         })
         .getWord64les('w64lesu')
         .tap(function (vars) {
-            assert.equal(vars.w64lesu, 5337084636995872375, 'w64lesu is not 5337084636995872375');
+            assert.eql(vars.w64lesu, 5337084636995872375, 'w64lesu is not 5337084636995872375');
         })
         .getWord64bes('w64besu')
         .tap(function (vars) {
-            assert.equal(vars.w64besu, 5337084636995872375, 'w64besu is not 5337084636995872375');
+            assert.eql(vars.w64besu, 5337084636995872375, 'w64besu is not 5337084636995872375');
         })
         .end()
     ;
