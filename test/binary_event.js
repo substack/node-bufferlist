@@ -48,7 +48,9 @@ exports['binary event'] = function (assert) {
             );
             client.end();
         });
-        client.connect(port);
+        setTimeout(function () {
+            client.connect(port);
+        }, 50);
     }
     
     serverSession(20801,
