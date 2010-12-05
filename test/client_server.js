@@ -40,6 +40,8 @@ exports['client/server'] = function (assert) {
     });
     server.listen(port);
 
-    client.connect(port);
+    setTimeout(function () {
+        client.connect(port);
+    }, 50);
 };
 
