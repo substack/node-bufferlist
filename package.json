@@ -8,5 +8,11 @@
         "type": "git",
         "url": "http://github.com/substack/node-bufferlist.git"
     },
+    "devDependencies" : {
+        "expresso": ">= 0.7.2"
+    },
+    "scripts": {
+        "test": "expresso"
+    },
     "engine": ["node >=0.1.97"]
 }
