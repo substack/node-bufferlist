@@ -11,11 +11,11 @@ function BufferList(opts) {
     EventEmitter.call(this);
     var self = this;
     
-    if (typeof(opts) == 'undefined') opts = {}
+    if (typeof(opts) == 'undefined') opts = {};
     
-    // default encoding to use for take()
+    // default encoding to use for take(). Leaving as 'undefined'
+    // makes take() return a Buffer instead.
     self.encoding = opts.encoding;
-    if (!self.encoding) self.encoding = 'binary';
     
     // constructor to use for Buffer-esque operations
     self.construct = opts.construct || Buffer;
@@ -130,24 +130,33 @@ function BufferList(opts) {
     // Returns a string.
     // If there are less than n bytes in all the buffers or n is undefined,
     // returns the entire concatenated buffer string.
-    self.take = function (n) {
+    self.take = function (n, encoding) {
         if (n == undefined) n = self.length;
+        else if (typeof n !== 'number') {
+            encoding = n;
+            n = self.length;
+        }
         var b = head;
-        var acc = '';
-        var encoding = self.encoding;
-        self.forEach(function (buffer) {
-            if (n <= 0) return true;
-            acc += buffer.toString(
-                encoding, 0, Math.min(n,buffer.length)
-            );
-            n -= buffer.length;
-        });
-        return acc;
+        if (!encoding) encoding = self.encoding;
+        if (encoding) {
+            var acc = '';
+            self.forEach(function (buffer) {
+                if (n <= 0) return true;
+                acc += buffer.toString(
+                    encoding, 0, Math.min(n,buffer.length)
+                );
+                n -= buffer.length;
+            });
+            return acc;
+        } else {
+            // If no 'encoding' is specified, then return a Buffer.
+            return self.join(0, n);
+        }
     };
     
     // The entire concatenated buffer as a string.
     self.toString = function () {
-        return self.take();
+        return self.take('binary');
     };
 }
 require('util').inherits(BufferList, EventEmitter);
