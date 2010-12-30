@@ -8,7 +8,7 @@ var assert = require('assert');
 
 exports['client/server'] = function () {
     var BufferList = require('../bufferlist');
-    var bufs = new BufferList;
+    var bufs = new BufferList({ encoding: 'binary' });
     var elems = [];
 
     client.addListener('data', function (data) {

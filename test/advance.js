@@ -5,7 +5,7 @@ var BufferList = require('../bufferlist');
 var assert = require('assert');
 
 exports.advance = function () {
-    var b = new BufferList;
+    var b = new BufferList({ encoding: 'binary' });
     var buf1 = new Buffer(5); buf1.write('abcde');
     var buf2 = new Buffer(3); buf2.write('xyz');
     var buf3 = new Buffer(5); buf3.write('11358');

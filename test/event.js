@@ -6,7 +6,7 @@ var BufferList = require('../bufferlist');
 var assert = require('assert');
 
 exports.events = function () {
-    var b = new BufferList;
+    var b = new BufferList({ encoding: 'binary' });
     var times = 0;
     
     var wrote = null;
