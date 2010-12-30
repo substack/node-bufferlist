@@ -14,11 +14,11 @@ function BufferList(opts) {
     if (typeof(opts) == 'undefined') opts = {}
     
     // default encoding to use for take()
-    this.encoding = opts.encoding;
-    if (!this.encoding) this.encoding = 'binary';
+    self.encoding = opts.encoding;
+    if (!self.encoding) self.encoding = 'binary';
     
     // constructor to use for Buffer-esque operations
-    this.construct = opts.construct || Buffer;
+    self.construct = opts.construct || Buffer;
     
     var head = { next : null, buffer : null };
     var last = { next : null, buffer : null };
@@ -26,7 +26,7 @@ function BufferList(opts) {
     // length can get negative when advanced past the end
     // and this is the desired behavior
     var length = 0;
-    this.__defineGetter__('length', function () {
+    self.__defineGetter__('length', function () {
         return length;
     });
     
@@ -63,11 +63,11 @@ function BufferList(opts) {
     // For each buffer, perform some action.
     // If fn's result is a true value, cut out early.
     // Returns this (self).
-    this.forEach = function (fn) {
-        if (!head.buffer) return new this.construct(0);
+    self.forEach = function (fn) {
+        if (!head.buffer) return new self.construct(0);
         
-        if (head.buffer.length - offset <= 0) return this;
-        var firstBuf = new this.construct(head.buffer.length - offset);
+        if (head.buffer.length - offset <= 0) return self;
+        var firstBuf = new self.construct(head.buffer.length - offset);
         head.buffer.copy(firstBuf, 0, offset, head.buffer.length);
         
         var b = { buffer : firstBuf, next : head.next };
@@ -78,19 +78,19 @@ function BufferList(opts) {
             b = b.next;
         }
         
-        return this;
+        return self;
     };
     
     // Create a single Buffer out of all the chunks or some subset specified by
     // start and one-past the end (like slice) in bytes.
-    this.join = function (start, end) {
-        if (!head.buffer) return new this.construct(0);
+    self.join = function (start, end) {
+        if (!head.buffer) return new self.construct(0);
         if (start == undefined) start = 0;
-        if (end == undefined) end = this.length;
+        if (end == undefined) end = self.length;
         
-        var big = new this.construct(end - start);
+        var big = new self.construct(end - start);
         var ix = 0;
-        this.forEach(function (buffer) {
+        self.forEach(function (buffer) {
             if (start < (ix + buffer.length) && ix < end) {
                 // at least partially contained in the range
                 buffer.copy(
@@ -112,7 +112,7 @@ function BufferList(opts) {
     // operations such as .take() will return empty strings until enough data is
     // pushed.
     // Returns this (self).
-    this.advance = function (n) {
+    self.advance = function (n) {
         offset += n;
         length -= n;
         while (head.buffer && offset >= head.buffer.length) {
@@ -122,20 +122,20 @@ function BufferList(opts) {
                 : { buffer : null, next : null }
             ;
         }
-        this.emit('advance', n);
-        return this;
+        self.emit('advance', n);
+        return self;
     };
     
     // Take n bytes from the start of the buffers.
     // Returns a string.
     // If there are less than n bytes in all the buffers or n is undefined,
     // returns the entire concatenated buffer string.
-    this.take = function (n) {
-        if (n == undefined) n = this.length;
+    self.take = function (n) {
+        if (n == undefined) n = self.length;
         var b = head;
         var acc = '';
-        var encoding = this.encoding;
-        this.forEach(function (buffer) {
+        var encoding = self.encoding;
+        self.forEach(function (buffer) {
             if (n <= 0) return true;
             acc += buffer.toString(
                 encoding, 0, Math.min(n,buffer.length)
@@ -146,8 +146,8 @@ function BufferList(opts) {
     };
     
     // The entire concatenated buffer as a string.
-    this.toString = function () {
-        return this.take();
+    self.toString = function () {
+        return self.take();
     };
 }
 require('util').inherits(BufferList, EventEmitter);
