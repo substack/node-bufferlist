@@ -6,9 +6,9 @@ var EventEmitter = require('events').EventEmitter;
 module.exports = BufferList;
 module.exports.BufferList = BufferList; // backwards compatibility
 
-BufferList.prototype = new EventEmitter;
 function BufferList(opts) {
     if (!(this instanceof BufferList)) return new BufferList(opts);
+    EventEmitter.call(this);
     var self = this;
     
     if (typeof(opts) == 'undefined') opts = {}
@@ -149,5 +149,5 @@ function BufferList(opts) {
     this.toString = function () {
         return this.take();
     };
-};
-
+}
+require('util').inherits(BufferList, EventEmitter);
