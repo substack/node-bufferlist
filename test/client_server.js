@@ -1,13 +1,13 @@
 // Test a client/server interaction
 // If nothing gets printed, everything is fine.
 
-var sys = require('sys');
+var sys = require('util');
 var net = require('net');
 var client = new net.Stream;
 var assert = require('assert');
 
 exports['client/server'] = function () {
-    var BufferList = require('../bufferlist');
+    var BufferList = require('bufferlist');
     var bufs = new BufferList({ encoding: 'binary' });
     var elems = [];
 

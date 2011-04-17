@@ -1,8 +1,8 @@
 // Test .into and hierarchical addressing assignment
 var sys = require('sys');
 var Buffer = require('buffer').Buffer;
-var BufferList = require('../bufferlist');
-var Binary = require('../lib/binary');
+var BufferList = require('bufferlist');
+var Binary = require('bufferlist/binary');
 var assert = require('assert');
 
 exports['binary assign'] = function () {

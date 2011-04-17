@@ -1,8 +1,8 @@
 {
     "name": "bufferlist",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "description": "Create linked lists of Buffer objects",
-    "directories": { "lib": "./lib" },
+    "directories": { "lib": "." },
     "main": "./bufferlist",
     "repository": {
         "type": "git",

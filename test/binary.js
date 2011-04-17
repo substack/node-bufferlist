@@ -1,7 +1,7 @@
 // Test the binary interface to bufferlists
 var Buffer = require('buffer').Buffer;
-var BufferList = require('../bufferlist').BufferList; // old style
-var Binary = require('../lib/binary').Binary; // old style
+var BufferList = require('bufferlist').BufferList; // old style
+var Binary = require('bufferlist/binary').Binary; // old style
 var sys = require('sys');
 var assert = require('assert');
 

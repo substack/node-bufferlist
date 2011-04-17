@@ -1,6 +1,6 @@
-var BufferList = require('../bufferlist');
+var BufferList = require('bufferlist');
 var EventEmitter = require('events').EventEmitter;
-var sys = require('sys');
+var util = require('util');
 
 module.exports = Binary;
 module.exports.Binary = Binary; // backwards compatibility
@@ -241,7 +241,7 @@ function Binary(buffer) {
                 throw TypeError(
                     'Last argument to .into must be a string, number, '
                     + 'or a function, not a "' + typeof fv + '".'
-                    + 'Value supplied: ' + sys.inspect(fv)
+                    + 'Value supplied: ' + util.inspect(fv)
                 );
             }
         });
@@ -382,7 +382,7 @@ function Binary(buffer) {
             throw TypeError(
                 'Last argument to getBuffer (length) must be a string, number, '
                 + 'or a function, not a "' + typeof(length) + '".'
-                + 'Value supplied: ' + sys.inspect(length)
+                + 'Value supplied: ' + util.inspect(length)
             );
         }
         

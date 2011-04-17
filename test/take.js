@@ -1,6 +1,6 @@
 // Test BufferList#take().
 var Buffer = require('buffer').Buffer;
-var BufferList = require('../bufferlist');
+var BufferList = require('bufferlist');
 var assert = require('assert');
 
 exports.join = function () {
