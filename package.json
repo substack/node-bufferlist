@@ -1,8 +1,11 @@
 {
     "name": "bufferlist",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Create linked lists of Buffer objects",
-    "directories": { "lib": "." },
+    "directories": {
+        "lib": "."
+    },
+    "author" : "James Halliday <mail@substack.net> (http://substack.net)",
     "main": "./bufferlist",
     "repository": {
         "type": "git",
@@ -11,8 +14,10 @@
     "devDependencies" : {
         "expresso": ">= 0.7.2"
     },
-    "scripts": {
+    "scripts" : {
         "test": "expresso"
     },
-    "engine": ["node >=0.1.97"]
+    "engine" : {
+        "node" : ">=0.4.0"
+    }
 }
