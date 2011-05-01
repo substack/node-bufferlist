@@ -4,6 +4,16 @@ BufferList provides an interface to treat a linked list of buffers as a single
 stream. This is useful for events that produce a many small Buffers, such as
 network streams.
 
+
+Note
+----
+
+This module is deprecated.
+
+[binary](https://github.com/substack/node-binary) and
+[buffers](https://github.com/substack/node-buffers)
+provide the functionality of bufferlist in similar but better ways.
+
 Installation
 ============
 Install using npm:
