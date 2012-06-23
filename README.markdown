@@ -30,7 +30,7 @@ Simple Bufferlist Example
 =========================
     
     #!/usr/bin/env node
-    var sys = require('sys');
+    var util = require('util');
     var Buffer = require('buffer').Buffer;
     var BufferList = require('bufferlist').BufferList;
 
@@ -41,7 +41,7 @@ Simple Bufferlist Example
         b.push(buf);
     });
 
-    sys.puts(b.take(10)); // abcdexyz11
+    util.puts(b.take(10)); // abcdexyz11
 
 Binary
 ======
@@ -52,7 +52,7 @@ Simple Binary Example
 
     #!/usr/bin/env node
 
-    var sys = require('sys');
+    var util = require('util');
     var Buffer = require('buffer').Buffer;
     var BufferList = require('bufferlist').BufferList;
     var Binary = require('bufferlist/binary').Binary;
@@ -71,7 +71,7 @@ Simple Binary Example
     buf.write('\x00\x04meow', 'binary');
     bufferList.push(buf);
 
-    sys.puts(binary.vars.moo); // xs:4:meow
+    util.puts(binary.vars.moo); // xs:4:meow
 
 See Also
 ========

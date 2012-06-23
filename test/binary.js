@@ -2,7 +2,7 @@
 var Buffer = require('buffer').Buffer;
 var BufferList = require('bufferlist').BufferList; // old style
 var Binary = require('bufferlist/binary').Binary; // old style
-var sys = require('sys');
+var util = require('util');
 var assert = require('assert');
 
 exports.binary = function () {
@@ -53,15 +53,15 @@ exports.binary = function () {
             assert.eql(
                 vars.xLen,
                 4,
-                'xLen == 4 failed (xLen == ' + sys.inspect(vars.xLen) + ')'
+                'xLen == 4 failed (xLen == ' + util.inspect(vars.xLen) + ')'
             );
             
             var xs = vars.xs.toString();
             assert.eql(
-                xs, 'meow', 'xs != "meow", xs = ' + sys.inspect(xs)
+                xs, 'meow', 'xs != "meow", xs = ' + util.inspect(xs)
             );
             assert.eql(
-                vars.moo, 100, 'moo != 100, moo == ' + sys.inspect(vars.moo)
+                vars.moo, 100, 'moo != 100, moo == ' + util.inspect(vars.moo)
             );
         }
     );
@@ -77,7 +77,7 @@ exports.binary = function () {
             assert.eql(vars.xLen, 0, 'xLen == 0 in "\\x00\\x12happy purring cats"');
             assert.eql(
                 vars.msgLen, 18,
-                'msgLen != 18, msgLen = ' + sys.inspect(vars.msgLen)
+                'msgLen != 18, msgLen = ' + util.inspect(vars.msgLen)
             );
             assert.eql(vars.moo, 42, 'moo != 42');
         }

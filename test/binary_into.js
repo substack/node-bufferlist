@@ -1,5 +1,5 @@
 // Check .into(), especially for object pollution
-var sys = require('sys');
+var util = require('util');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('bufferlist');
 var Binary = require('bufferlist/binary');
