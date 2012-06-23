@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var sys = require('sys');
+var util = require('util');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('bufferlist');
 
@@ -10,4 +10,4 @@ var b = new BufferList;
     b.push(buf);
 });
 
-sys.puts(b.take(10)); // abcdexyz11
+util.puts(b.take(10)); // abcdexyz11

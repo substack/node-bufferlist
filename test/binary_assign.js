@@ -1,5 +1,5 @@
 // Test .into and hierarchical addressing assignment
-var sys = require('sys');
+var util = require('util');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('bufferlist');
 var Binary = require('bufferlist/binary');
@@ -15,7 +15,7 @@ exports['binary assign'] = function () {
             assert.eql(
                 vars.foo.bar.baz, 24930,
                 'vars.foo.bar.baz != 24930, '
-                + 'vars.foo.bar.baz == ' + sys.inspect(vars.foo.bar.baz)
+                + 'vars.foo.bar.baz == ' + util.inspect(vars.foo.bar.baz)
             );
             tapped ++;
         })
@@ -24,7 +24,7 @@ exports['binary assign'] = function () {
             assert.eql(
                 vars.one.two.three, 1717920867,
                 'vars.one.two.three != 1717920867, '
-                + 'vars.one.two.three == ' + sys.inspect(vars.one.two.three)
+                + 'vars.one.two.three == ' + util.inspect(vars.one.two.three)
             );
             tapped ++;
         })

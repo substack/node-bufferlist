@@ -1,4 +1,4 @@
-var sys = require('sys');
+var util = require('util');
 var net = require('net');
 var BufferList = require('bufferlist');
 var Binary = require('bufferlist/binary');
@@ -6,7 +6,7 @@ var assert = require('assert');
 
 function parser (sock) {
     var bufferList = new BufferList;
-    sys.pump(sock, bufferList);
+    util.pump(sock, bufferList);
     
     return Binary(bufferList)
         .getWord16be('xLen')
@@ -45,7 +45,7 @@ exports['binary event'] = function () {
         parser(client).on('end', function (vars) {
             assert.eql(
                 moo, vars.moo,
-                'moo != ' + sys.inspect(moo) + ', moo == ' + sys.inspect(vars.moo)
+                'moo != ' + util.inspect(moo) + ', moo == ' + util.inspect(vars.moo)
             );
             client.end();
         });

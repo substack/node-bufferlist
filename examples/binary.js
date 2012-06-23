@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var sys = require('sys');
+var util = require('util');
 var net = require('net');
 
 var BufferList = require('bufferlist');
@@ -46,7 +46,7 @@ function serverSession (port, strings) {
     // connect to the server and parse its output
     var client = new net.Stream;
     parser(client).addListener('end', function (vars) {
-        sys.puts(vars.moo);
+        util.puts(vars.moo);
         client.end();
     });
     client.connect(port);

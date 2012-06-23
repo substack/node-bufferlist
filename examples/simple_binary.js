@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var sys = require('sys');
+var util = require('util');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('bufferlist');
 var Binary = require('bufferlist/binary');
@@ -19,4 +19,4 @@ var buf = new Buffer(6);
 buf.write('\x00\x04meow', 'binary');
 bufferList.push(buf);
 
-sys.puts(binary.vars.moo); // xs:4:meow
+util.puts(binary.vars.moo); // xs:4:meow

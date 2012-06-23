@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Test binary byte and endianness functions
-var sys = require('sys');
+var util = require('util');
 var Buffer = require('buffer').Buffer;
 var BufferList = require('bufferlist');
 var Binary = require('bufferlist/binary');

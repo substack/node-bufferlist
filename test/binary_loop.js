@@ -1,5 +1,5 @@
 // Test binary looping functions
-var sys = require('sys');
+var util = require('util');
 
 var Buffer = require('buffer').Buffer;
 var BufferList = require('bufferlist');
@@ -38,15 +38,15 @@ exports['binary loop'] = function () {
                     trickyList[i][0],
                     expectedTrickyList[i][0],
                     'trickly list is not what it should be. it should be: ' +
-                        sys.inspect(expectedTrickyList) + '. it is: ' +
-                        sys.inspect(trickyList)
+                        util.inspect(expectedTrickyList) + '. it is: ' +
+                        util.inspect(trickyList)
                 );
                 assert.eql(
                     trickyList[i][1],
                     expectedTrickyList[i][1],
                     'trickly list is not what it should be. it should be: ' +
-                        sys.inspect(expectedTrickyList) + '. it is: ' +
-                        sys.inspect(trickyList)
+                        util.inspect(expectedTrickyList) + '. it is: ' +
+                        util.inspect(trickyList)
                 );
             }
         })
