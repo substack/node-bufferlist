@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/substack/node-bufferlist.png)](http://travis-ci.org/substack/node-bufferlist)
 BufferList
 ==========
 BufferList provides an interface to treat a linked list of buffers as a single
